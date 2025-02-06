@@ -1,44 +1,46 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 
-
-const Nav = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+const Navigation = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScrolled = () => {
+    const handleScroll = () => {
       if (window.scrollY > 50) {
-        setScrolled(true);
+        setIsScrolled(true);
       } else {
-        setScrolled(false);
+        setIsScrolled(false);
       }
     };
-    window.addEventListener("scroll", handleScrolled);
-    return () => window.removeEventListener("scroll", handleScrolled);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <header className="fixed top-0 left-0 right-0 bg-black z-50 ">
+    <header className="fixed top-0 left-0 right-0 bg-black/80 z-50">
       <div
-        className={`${
-          scrolled ? "px-4" : "p-4"
-        } mx-auto max-w-screen-xl sm:px-6 lg:px-8 transform duration-1000 `}
+        className={`
+          ${isScrolled ? "px-4" : "p-4"}
+          mx-auto
+          max-w-screen-xl
+          sm:px-6
+          lg:px-8
+          transform
+          duration-1000
+        `}
       >
         <div className="flex h-16 items-center justify-between">
-          <Link className="block text-white flex justify-center items-center" to="/">
-          <i className="fa-duotone fa-solid fa-cash-register  fa-2xl"></i>
+          <Link className="block text-white flex items-center" to="/">
+            <i className="fa-duotone fa-solid fa-cash-register fa-2xl"></i>
             <span className="uppercase text-white text-3xl font-bold">
-                E-commerce
+              E-commerce
             </span>
           </Link>
 
-          <nav
-            aria-label="Global"
-            className="hidden md:flex md:items-center md:gap-12"
-          >
+          <nav aria-label="Global" className="hidden md:flex md:items-center md:gap-12">
             <ul className="flex items-center uppercase gap-6 text-sm">
               <li>
                 <NavLink
@@ -89,9 +91,18 @@ const Nav = () => {
         </div>
 
         <div
-          className={`${
-            menuOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-          } overflow-hidden transition-all duration-700 ease-in-out md:hidden mt-4 bg-gray-800 p-4 rounded-lg`}
+          className={`
+            ${isMenuOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}
+            overflow-hidden
+            transition-all
+            duration-700
+            ease-in-out
+            md:hidden
+            mt-4
+            bg-gray-800
+            p-4
+            rounded-lg
+          `}
         >
           <ul className="flex flex-col gap-4 text-white uppercase text-sm">
             <li>
@@ -118,9 +129,6 @@ const Nav = () => {
                 Login
               </NavLink>
             </li>
-            <li>
-
-            </li>
           </ul>
         </div>
       </div>
@@ -128,6 +136,5 @@ const Nav = () => {
   );
 };
 
-export default Nav;
-
+export default Navigation;
 
