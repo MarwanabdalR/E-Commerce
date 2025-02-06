@@ -20,7 +20,7 @@ const Navigation = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-black/80 z-50">
+    <header className="sticky top-0 left-0 right-0 bg-black/80 z-50">
       <div
         className={`
           ${isScrolled ? "px-4" : "p-4"}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import axios from "axios";
 import * as Yup from "yup";
 
 export default function Register() {
@@ -13,27 +14,47 @@ export default function Register() {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .min(3, "Name must be between 3 and 12 characters")
-        .max(12, "Name must be between 3 and 12 characters")
+        .min(3, "Name must be at least 3 characters")
+        .max(20, "Name must be at most 20 characters")
         .required("Name is required"),
       phone: Yup.string()
+        .required("phone is req")
         .matches(/^\d+$/, "Phone must contain only numbers")
-        .min(10, "Phone must be between 10 and 12 characters")
-        .max(12, "Phone must be between 10 and 12 characters")
-        .required("Phone is required"),
-      email: Yup.string().email("Invalid email address").required("Email is required"),
+        .min(10, "Name must be at least 10 characters")
+        .max(12, "Name must be at most 12 characters"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
       password: Yup.string()
+        .required("Password is required")
+        .min(6, "Password must be at least 6 characters")
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
           "Password must be at least 8 characters, include uppercase and lowercase letters, a number, and a special character"
         )
-        .required("Password is required"),
+        .max(20, "Password must be at most 20 characters"),
       passwordConfirmation: Yup.string()
         .oneOf([Yup.ref("password"), null], "Passwords do not match")
         .required("Password confirmation is required"),
     }),
     onSubmit: (values) => {
-      console.log("Form submitted", values);
+      try {
+        const response = axios.post(
+          "https://ecommerce.routemisr.com/api/v1/auth/signup",
+          {
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            rePassword: values.passwordConfirmation,
+            phone: values.phone,
+          }
+        );
+        console.log(response);
+        alert("success");
+      } catch (error) {
+        console.log(error);
+        alert(error.response.data.message);
+      }
     },
   });
 
@@ -83,8 +104,12 @@ export default function Register() {
                 onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
               />
-              {formik.touched.name && formik.errors.name && (
-                <p className="text-red-500 text-sm">{formik.errors.name}</p>
+              {formik.touched.name && formik.errors.name ? (
+                <div className="text-red-500">{formik.errors.name}</div>
+              ) : (
+                formik.touched.name && (
+                  <div className="text-green-500">{formik.errors.name}</div>
+                )
               )}
             </div>
 
@@ -105,8 +130,12 @@ export default function Register() {
                 onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
               />
-              {formik.touched.phone && formik.errors.phone && (
-                <p className="text-red-500 text-sm">{formik.errors.phone}</p>
+              {formik.touched.phone && formik.errors.phone ? (
+                <div className="text-red-500">{formik.errors.phone}</div>
+              ) : (
+                formik.touched.phone && (
+                  <div className="text-green-500">{formik.errors.phone}</div>
+                )
               )}
             </div>
 
@@ -127,8 +156,12 @@ export default function Register() {
                 onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
               />
-              {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm">{formik.errors.email}</p>
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-red-500">{formik.errors.email}</div>
+              ) : (
+                formik.touched.email && (
+                  <div className="text-green-500">{formik.errors.email}</div>
+                )
               )}
             </div>
 
@@ -149,8 +182,12 @@ export default function Register() {
                 onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
               />
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-red-500 text-sm">{formik.errors.password}</p>
+              {formik.touched.password && formik.errors.password ? (
+                <div className="text-red-500">{formik.errors.password}</div>
+              ) : (
+                formik.touched.password && (
+                  <div className="text-green-500">{formik.errors.password}</div>
+                )
               )}
             </div>
 
@@ -171,10 +208,17 @@ export default function Register() {
                 onBlur={formik.handleBlur}
                 className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
               />
-              {formik.touched.passwordConfirmation && formik.errors.passwordConfirmation && (
-                <p className="text-red-500 text-sm">
+              {formik.touched.passwordConfirmation &&
+              formik.errors.passwordConfirmation ? (
+                <div className="text-red-500">
                   {formik.errors.passwordConfirmation}
-                </p>
+                </div>
+              ) : (
+                formik.touched.passwordConfirmation && (
+                  <div className="text-green-500">
+                    {formik.errors.passwordConfirmation}
+                  </div>
+                )
               )}
             </div>
 
@@ -196,7 +240,10 @@ export default function Register() {
             </div>
 
             <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-              <button type="submit" className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden">
+              <button
+                type="submit"
+                className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden"
+              >
                 Create an account
               </button>
 
@@ -214,4 +261,3 @@ export default function Register() {
     </div>
   );
 }
-
