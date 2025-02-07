@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
-
+import { AuthContext } from "../../func/context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isLoggedIn, logout } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +20,13 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+
+    setIsMenuOpen(false);
+    navigate("/");
+  };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -40,32 +51,136 @@ const Navigation = () => {
             </span>
           </Link>
 
-          <nav aria-label="Global" className="hidden md:flex md:items-center md:gap-12">
+          <nav
+            aria-label="Global"
+            className="hidden md:flex md:items-center md:gap-12"
+          >
+            <ul className="flex items-center capitalize gap-6 text-sm">
+              {!isLoggedIn ? (
+                ""
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/home"
+                    >
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/cart"
+                    >
+                      cart
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/wishlist"
+                    >
+                      wishlist
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/products"
+                    >
+                      products
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/categories"
+                    >
+                      categories
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/brands"
+                    >
+                      brands
+                    </NavLink>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
+
+          <nav
+            aria-label="Global"
+            className="hidden md:flex md:items-center md:gap-12"
+          >
             <ul className="flex items-center uppercase gap-6 text-sm">
-              <li>
-                <NavLink
-                  className={({ isActive }) =>
-                    `text-white font-medium transition duration-500 hover:text-white/75 ${
-                      isActive ? "text-yellow-500 " : ""
-                    }`
-                  }
-                  to="/register"
-                >
-                  Register
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  className={({ isActive }) =>
-                    `text-white font-medium transition duration-500 hover:text-white/75 ${
-                      isActive ? "text-yellow-500" : ""
-                    }`
-                  }
-                  to="/login"
-                >
-                  Login
-                </NavLink>
-              </li>
+              {!isLoggedIn ? (
+                <>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500 " : ""
+                        }`
+                      }
+                      to="/register"
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        `text-white font-medium transition duration-500 hover:text-white/75 ${
+                          isActive ? "text-yellow-500" : ""
+                        }`
+                      }
+                      to="/login"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="text-white bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              )}
             </ul>
           </nav>
 
@@ -105,30 +220,45 @@ const Navigation = () => {
           `}
         >
           <ul className="flex flex-col gap-4 text-white uppercase text-sm">
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  `block font-medium transition duration-500 hover:text-gray-400 ${
-                    isActive ? "text-yellow-500" : ""
-                  }`
-                }
-                to="/register"
-              >
-                Register
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className={({ isActive }) =>
-                  `block font-medium transition duration-500 hover:text-gray-400 ${
-                    isActive ? "text-yellow-500" : ""
-                  }`
-                }
-                to="/login"
-              >
-                Login
-              </NavLink>
-            </li>
+            {!isLoggedIn ? (
+              <>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `block font-medium transition duration-500 hover:text-gray-400 ${
+                        isActive ? "text-yellow-500" : ""
+                      }`
+                    }
+                    to="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Register
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `block font-medium transition duration-500 hover:text-gray-400 ${
+                        isActive ? "text-yellow-500" : ""
+                      }`
+                    }
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button
+                  className="block text-white bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -137,4 +267,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-

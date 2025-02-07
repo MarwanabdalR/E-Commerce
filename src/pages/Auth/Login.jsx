@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { toast } from "react-hot-toast";
+import { AuthContext } from "../../func/context/AuthContext.jsx";
+import { useContext } from "react";
 
 export default function Login() {
 
-
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -26,17 +30,18 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
-
-        alert("Login successful!");
-        console.log("response:", response);
+        const AuthRespone = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
+        toast.success("Login successful!");
+        console.log("AuthRespone:", AuthRespone);
+        localStorage.setItem("token", AuthRespone.data.token);
+        navigate("/home", { state: { isLoggedIn: true } });
+        login(AuthRespone.data.token);
       } catch (error) {
         console.error("Login failed:", error);
-        alert(error.response?.data?.message || "Login failed.");
+        alert(error.AuthRespone?.data?.message || "Login failed.");
       }
     },
   });
-
 
   return (
     <>
@@ -63,7 +68,7 @@ export default function Login() {
                 reality of everyday life.
               </p>
 
-              <form action={formik.handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
+              <form onSubmit={formik.handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
                 <div className="col-span-6">
                   <label
                     htmlFor="Email"
