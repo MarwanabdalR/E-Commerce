@@ -1,3 +1,5 @@
+// الكونتكست دا في البرودكت والكاتجوري
+
 import { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
 

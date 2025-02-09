@@ -1,85 +1,174 @@
-import { Card, Carousel } from "flowbite-react";
+import { Card, Carousel, Pagination } from "flowbite-react";
+import { useEffect, useState } from "react";
 import { useApi } from "../../func/context/ProductContext.jsx";
+import { Link } from "react-router";
 
 export default function Home() {
   const { products, Catgory } = useApi();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(12);
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+  const handleSearch = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    filterProducts(query);
+  };
+
+  const filterProducts = (query) => {
+    const results = products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query) ||
+        product.category.name.toLowerCase().includes(query) ||
+        product.brand.name.toLowerCase().includes(query)
+    );
+    setFilteredProducts(results);
+  };
+
+  const handleBlur = () => {
+    if (searchQuery.trim() === "") {
+      setFilteredProducts(products);
+    }
+  };
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
-      <div className="bg-gradient-to-br from-red-900 to-slate-400 py-24">
-        <Carousel leftControl=" " rightControl=" " pauseOnHover className="py-10 h-56 sm:h-64 xl:h-80 2xl:h-96 max-w-screen-xl mx-auto">
-          <div className="flex gap-4">
-          {Catgory.map((category) => (
-
-            <div 
-            key={category._id} 
-            className="flex gap-4 items-center justify-center w-48 p-2 bg-white rounded-lg shadow-md hover:shadow-lg">
-              <img src={category.image} alt={category.name} className="h-36 object-cover relative" />
-              <span className="absolute text-xl overflow-hidden">{category.name}</span>
+      <div className="bg-gradient-to-br from-red-900 to-slate-400">
+        {/* First Section */}
+        <section className="flex items-center">
+          <div className="mx-auto px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
+            <div className="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
+              <h1 className="text-3xl font-extrabold text-white sm:text-5xl">
+                Let us find your
+                <strong className="block font-extrabold text-rose-500">
+                  Fashion Style.
+                </strong>
+              </h1>
+              <p className="flex justify-center mt-4 max-w-lg text-white sm:text-xl/relaxed">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Nesciunt illo tenetur fuga ducimus numquam ea!
+              </p>
+              <div className="mt-8 flex justify-center flex-wrap gap-4 text-center">
+                <Link
+                  to="/products"
+                  className="block w-full rounded-sm bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow-sm hover:bg-rose-700 focus:ring-3 focus:outline-hidden sm:w-auto"
+                >
+                  Get Started
+                </Link>
+                <Link
+                  href="#"
+                  className="block w-full rounded-sm bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow-sm hover:text-rose-700 focus:ring-3 focus:outline-hidden sm:w-auto"
+                >
+                  Learn More
+                </Link>
+              </div>
             </div>
-          ))}
-          
+          </div>
+        </section>
+
+        {/*  Carousel */}
+        <Carousel
+          leftControl=" "
+          rightControl=" "
+          pauseOnHover
+          className="h-56 sm:h-64 xl:h-80 2xl:h-96 max-w-screen-xl mx-auto"
+        >
+          <div className="flex gap-4">
+            {Catgory.map((category) => (
+              <div
+                key={category._id}
+                className="flex gap-4 items-center justify-center w-48 p-2 bg-white rounded-lg shadow-md hover:shadow-lg"
+              >
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="h-36 object-cover relative"
+                />
+                <span className="absolute text-xl overflow-hidden">
+                  {category.name}
+                </span>
+              </div>
+            ))}
           </div>
         </Carousel>
 
-        {/*
-
-
-       here is productssssssssss 
-      
-      
-       
-       */}
-        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-          {products.map((product) => (
-            <Card
-              key={product._id}
-              className="max-w-xs hover:scale-105 hover:shadow-lg hover:shadow-red-800/50 hover:shadow-lg hover:shadow-red-800/50 transition-all duration-500"
-              imgAlt={product.title}
-              imgSrc={product.imageCover}
-            >
-              <a href="#">
-                <h6 className="font-light text-red-800 dark:text-white">
-                  {product.category.name}
-                </h6>
-              </a>
-              <a href="#">
-                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {product.title}
-                </h5>
-              </a>
-              <div className="mb-5 mt-2.5 flex justify-between items-center">
-                <span className="rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
-                  {product.brand.name}
-                </span>
-                <div className="flex items-center">
-                  <svg
-                    className="h-5 w-5 text-yellow-300"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span className="rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
-                    {product.ratingsAverage}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {`${product.price} EGP`}
-                </span>
-                <a
-                  href="#"
-                  className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                >
-                  Add to cart
-                </a>
-              </div>
-            </Card>
-          ))}
+        {/* Search Input */}
+        <div className="max-w-screen-xl mx-auto mt-10 mb-5 px-4 sm:px-6 lg:px-8">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearch}
+            onBlur={handleBlur}
+            name="search"
+            id="search"
+            className="block w-full px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
+            placeholder="Search products..."
+          />
         </div>
+
+        {/* Products */}
+        <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+          {currentProducts.length > 0 ? (
+            currentProducts.map((product) => (
+              <Card
+                key={product._id}
+                className="max-w-xs hover:scale-105 hover:shadow-lg hover:shadow-red-800/50 transition-all duration-500 mb-10"
+                imgAlt={product.title}
+                imgSrc={product.imageCover}
+              >
+                <Link href="#">
+                  <h6 className="font-light text-red-800 dark:text-white">
+                    {product.category.name}
+                  </h6>
+                </Link>
+                <Link href="#">
+                  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                    {product.title}
+                  </h5>
+                </Link>
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {`${product.price} EGP`}
+                  </span>
+                  <Link
+                    href="#"
+                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                  >
+                    Add to cart
+                  </Link>
+                </div>
+              </Card>
+            ))
+          ) : (
+            <p className="text-center col-span-full text-white">
+              No products found.
+            </p>
+          )}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredProducts.length / productsPerPage)}
+          onPageChange={paginate}
+          className="flex justify-center"
+        />
       </div>
     </>
   );
 }
+
