@@ -12,6 +12,10 @@ import WishList from "./pages/WishList/WishList.jsx";
 import Categories from "./pages/Categories/Categories.jsx";
 import Brands from "./pages/Brands/Brands.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import { BrandsProvider } from "./func/context/BrandsContext.jsx";
+import ProtectedPath from "./pages/Auth/ProtectedPath.jsx";
+import ProductDetails from "./pages/Products/ProductDetails.jsx";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -33,32 +37,36 @@ function App() {
         },
         {
           path: "/home",
-          element: <Home />,
+          element: <ProtectedPath> <Home /> </ProtectedPath>,
         },
         {
           path: "/products",
-          element: <Products />,
+          element: <ProtectedPath><Products /></ProtectedPath> ,
+        },
+        {
+          path: "/ProductDetails/:id/:category",
+          element: <ProtectedPath><ProductDetails /></ProtectedPath> ,
         },
         {
           path: "/cart",
-          element:<Cart />
+          element: <ProtectedPath><Cart /></ProtectedPath>,
         },
         {
           path: "/wishlist",
-          element:<WishList />
+          element: <ProtectedPath><WishList /></ProtectedPath>,
         },
         {
           path: "/categories",
-          element:<Categories />
+          element: <ProtectedPath><Categories /></ProtectedPath>,
         },
         {
           path: "/brands",
-          element:<Brands />
+          element: <ProtectedPath><Brands /></ProtectedPath>,
         },
         {
           path: "*",
           element: <NotFound />,
-        }
+        },
       ],
     },
   ]);
@@ -67,8 +75,10 @@ function App() {
     <>
       <AuthProvider>
         <ProductProvider>
-          <Toaster position="top-right" reverseOrder={true} />
-          <RouterProvider router={router} />
+          <BrandsProvider>
+            <Toaster position="top-right" reverseOrder={true} />
+            <RouterProvider router={router} />
+          </BrandsProvider>
         </ProductProvider>
       </AuthProvider>
     </>

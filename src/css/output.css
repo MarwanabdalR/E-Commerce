@@ -1253,6 +1253,21 @@ input[type="range"]::-ms-fill-lower {
   margin-bottom: 2rem;
 }
 
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+.mx-12 {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.my-10 {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
 .-mb-px {
   margin-bottom: -1px;
 }
@@ -1373,8 +1388,11 @@ input[type="range"]::-ms-fill-lower {
   margin-top: 2rem;
 }
 
-.mb-8 {
-  margin-bottom: 2rem;
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .block {
@@ -1416,16 +1434,6 @@ input[type="range"]::-ms-fill-lower {
 .size-6 {
   width: 1.5rem;
   height: 1.5rem;
-}
-
-.size-3 {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-.size-8 {
-  width: 2rem;
-  height: 2rem;
 }
 
 .h-0\.5 {
@@ -1707,6 +1715,10 @@ input[type="range"]::-ms-fill-lower {
   max-width: 20rem;
 }
 
+.max-w-screen-2xl {
+  max-width: 1536px;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1935,8 +1947,12 @@ input[type="range"]::-ms-fill-lower {
   gap: 2rem;
 }
 
-.gap-3 {
-  gap: 0.75rem;
+.gap-5 {
+  gap: 1.25rem;
+}
+
+.gap-10 {
+  gap: 2.5rem;
 }
 
 .-space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -2025,6 +2041,10 @@ input[type="range"]::-ms-fill-lower {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-clip {
+  overflow: clip;
 }
 
 .overflow-y-auto {
@@ -3091,6 +3111,10 @@ input[type="range"]::-ms-fill-lower {
   padding-top: 1.25rem;
 }
 
+.pt-10 {
+  padding-top: 2.5rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -3136,6 +3160,16 @@ input[type="range"]::-ms-fill-lower {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-sm\/relaxed {
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
 }
 
 .font-bold {
@@ -3906,6 +3940,12 @@ input[type="range"]::-ms-fill-lower {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:scale-75:hover {
+  --tw-scale-x: .75;
+  --tw-scale-y: .75;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:cursor-not-allowed:hover {
   cursor: not-allowed;
 }
@@ -4024,6 +4064,11 @@ input[type="range"]::-ms-fill-lower {
   background-color: rgb(159 88 10 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-slate-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-gradient-to-br:hover {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -4087,6 +4132,26 @@ input[type="range"]::-ms-fill-lower {
 
 .hover\:shadow-red-800\/50:hover {
   --tw-shadow-color: rgb(155 28 28 / 0.5);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:shadow-slate-600:hover {
+  --tw-shadow-color: #475569;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:shadow-red-800:hover {
+  --tw-shadow-color: #9B1C1C;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:shadow-rose-950:hover {
+  --tw-shadow-color: #4c0519;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.hover\:shadow-rose-500:hover {
+  --tw-shadow-color: #f43f5e;
   --tw-shadow: var(--tw-shadow-colored);
 }
 
@@ -6057,6 +6122,10 @@ input[type="range"]::-ms-fill-lower {
     gap: 1rem;
   }
 
+  .sm\:p-6 {
+    padding: 1.5rem;
+  }
+
   .sm\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -6114,6 +6183,11 @@ input[type="range"]::-ms-fill-lower {
     font-size: 0.75rem;
     line-height: 1rem;
   }
+
+  .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -6164,6 +6238,10 @@ input[type="range"]::-ms-fill-lower {
     height: 100%;
   }
 
+  .md\:h-80 {
+    height: 20rem;
+  }
+
   .md\:w-48 {
     width: 12rem;
   }
@@ -6178,6 +6256,10 @@ input[type="range"]::-ms-fill-lower {
 
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .md\:flex-row {
@@ -6227,6 +6309,10 @@ input[type="range"]::-ms-fill-lower {
     padding: 0px;
   }
 
+  .md\:p-8 {
+    padding: 2rem;
+  }
+
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -6235,6 +6321,11 @@ input[type="range"]::-ms-fill-lower {
   .md\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .md\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 
   .md\:font-medium {
@@ -6315,6 +6406,10 @@ input[type="range"]::-ms-fill-lower {
     height: 100vh;
   }
 
+  .lg\:h-96 {
+    height: 24rem;
+  }
+
   .lg\:min-h-screen {
     min-height: 100vh;
   }
@@ -6323,12 +6418,24 @@ input[type="range"]::-ms-fill-lower {
     max-width: 48rem;
   }
 
+  .lg\:max-w-2xl {
+    max-width: 42rem;
+  }
+
   .lg\:grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:items-center {
@@ -6341,6 +6448,10 @@ input[type="range"]::-ms-fill-lower {
 
   .lg\:p-12 {
     padding: 3rem;
+  }
+
+  .lg\:p-10 {
+    padding: 2.5rem;
   }
 
   .lg\:px-16 {
@@ -6356,6 +6467,11 @@ input[type="range"]::-ms-fill-lower {
   .lg\:py-12 {
     padding-top: 3rem;
     padding-bottom: 3rem;
+  }
+
+  .lg\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 }
 
@@ -6379,11 +6495,6 @@ input[type="range"]::-ms-fill-lower {
   .ltr\:sm\:text-left:where([dir="ltr"], [dir="ltr"] *) {
     text-align: left;
   }
-}
-
-.rtl\:rotate-180:where([dir="rtl"], [dir="rtl"] *) {
-  --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .rtl\:after\:right-1:where([dir="rtl"], [dir="rtl"] *)::after {

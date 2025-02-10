@@ -15,13 +15,12 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     localStorage.setItem("token", token);
     setIsLoggedIn(true);
-    console.log("login truuuue");
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    console.log("logout falssse");
+    localStorage.removeItem("name");
   };
 
   return (

@@ -152,7 +152,7 @@ const Navigation = () => {
                         }`
                       }
                       to="/register"
-                    >
+                      >
                       Register
                     </NavLink>
                   </li>
@@ -164,7 +164,7 @@ const Navigation = () => {
                         }`
                       }
                       to="/login"
-                    >
+                      >
                       Login
                     </NavLink>
                   </li>
@@ -175,10 +175,11 @@ const Navigation = () => {
                     <button
                       onClick={handleLogout}
                       className="text-white bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600"
-                    >
+                      >
                       Logout
                     </button>
                   </li>
+                      <h2>heeeelo: {localStorage.getItem("name")}</h2>
                 </>
               )}
             </ul>

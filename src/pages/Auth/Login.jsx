@@ -4,10 +4,10 @@ import axios from "axios";
 import * as Yup from "yup";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../func/context/AuthContext.jsx";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export default function Login() {
-
+  const [loading, setLoading] = useState(null);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const formik = useFormik({
@@ -28,18 +28,40 @@ export default function Login() {
         )
         .max(20, "Password must be at most 20 characters"),
     }),
-    onSubmit: async (values) => {
-      try {
-        const AuthRespone = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
-        toast.success("Login successful!");
-        console.log("AuthRespone:", AuthRespone);
-        localStorage.setItem("token", AuthRespone.data.token);
-        navigate("/home", { state: { isLoggedIn: true } });
-        login(AuthRespone.data.token);
-      } catch (error) {
-        console.error("Login failed:", error);
-        alert(error.AuthRespone?.data?.message || "Login failed.");
-      }
+    // onSubmit: async (values) => {
+    //   try {
+    //     const AuthRespone = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
+    //     toast.success("Login successful!");
+    //     console.log("AuthRespone:", AuthRespone);
+    //     localStorage.setItem("token", AuthRespone.data.token);
+    //     navigate("/home", { state: { isLoggedIn: true } });
+    //     login(AuthRespone.data.token);
+    //   } catch (error) {
+    //     console.error("Login failed:", error);
+    //     alert(error.AuthRespone?.data?.message || "Login failed.");
+    //   }
+    // },
+    onSubmit: (values) => {
+      setLoading(true);
+      axios
+        .post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
+        .then((res) => {
+          toast.success("Login successful!");
+          console.log("res:", res);
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("name", res.data.user.name);
+          navigate("/home", { state: { isLoggedIn: true } });
+          login(res.data.token);
+          // console.log("Name:", res.data.user.name);
+          setLoading(false);
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+          // console.error("Login failed duo to", res);
+          setLoading(false);
+        }).finally(() => {
+          setLoading(false);
+        });
     },
   });
 
@@ -68,7 +90,10 @@ export default function Login() {
                 reality of everyday life.
               </p>
 
-              <form onSubmit={formik.handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
+              <form
+                onSubmit={formik.handleSubmit}
+                className="mt-8 grid grid-cols-6 gap-6"
+              >
                 <div className="col-span-6">
                   <label
                     htmlFor="Email"
@@ -128,8 +153,10 @@ export default function Login() {
                 </div>
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden">
-                    Log In
+                  <button className={`inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden 
+                  ${loading ? "opacity-50 cursor-not-allowed " : ""}`}
+                    disabled={loading}>
+                    {loading ? "Loading..." : "Log In"}
                   </button>
 
                   <p className="mt-4 text-sm text-black sm:mt-0">
