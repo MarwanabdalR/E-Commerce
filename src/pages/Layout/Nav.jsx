@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../func/context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
+import { Button } from "flowbite-react";
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -179,7 +180,8 @@ const Navigation = () => {
                       Logout
                     </button>
                   </li>
-                      <h2>heeeelo: {localStorage.getItem("name")}</h2>
+                  <Button>heeeelo: {localStorage.getItem("name")}</Button>
+                      
                 </>
               )}
             </ul>

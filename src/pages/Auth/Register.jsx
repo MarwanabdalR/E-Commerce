@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 export default function Register() {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -50,7 +52,8 @@ export default function Register() {
           }
         );
         console.log(response);
-        alert("success");
+        toast.success('Successfully registered!');
+        navigate("/home");
       } catch (error) {
         console.log(error);
         alert(error.response.data.message);

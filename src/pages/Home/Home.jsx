@@ -5,7 +5,7 @@ import { Link } from "react-router";
 
 export default function Home() {
   const { products, Catgory } = useProduct();
-  console.log("🚀 ~ Home ~ Catgory:", products)
+  // console.log("🚀 ~ Home ~ Catgory:", products)
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

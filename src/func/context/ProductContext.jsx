@@ -14,7 +14,6 @@ export function ProductProvider({ children }) {
         const productResponse = await axios.get(
           "https://ecommerce.routemisr.com/api/v1/products"
         );
-        // console.log("🚀 ~ fetchProducts ~ productResponse:", productResponse)
         setProducts(productResponse.data.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -30,7 +29,6 @@ export function ProductProvider({ children }) {
         const catgoryResponse = await axios.get(
           "https://ecommerce.routemisr.com/api/v1/categories"
         );
-        // console.log("🚀 ~ fetchcategory ~ catgoryResponse:", catgoryResponse)
         setCatgory(catgoryResponse.data.data);
       } catch (error) {
         console.error("Error fetching catgory:", error);

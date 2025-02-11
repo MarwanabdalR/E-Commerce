@@ -2,13 +2,11 @@ import axios from "axios";
 import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useProduct } from "../../func/context/ProductContext";
 
 const ProductDetails = () => {
   const [productData, setProductData] = useState({});
   const [relatedProducts, setRelatedProducts] = useState(null);
   const { id, category } = useParams();
-  const { Catgory } = useProduct();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -21,6 +19,26 @@ const ProductDetails = () => {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productResponse = await axios.get(
+          "https://ecommerce.routemisr.com/api/v1/products"
+        );
+        let newProducts = productResponse.data.data.filter((product) => {
+          return product.category._id === category;
+        })
+        // console.log("🚀 ~ newProducts ~ newProducts:", newProducts)
+        setRelatedProducts(productResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
 
   const product = productData;
 
@@ -59,10 +77,27 @@ const ProductDetails = () => {
               </button>
             </form>
           </div>
+
+          {relatedProducts && (
+            <div className="mt-10">
+              <h3 className="text-lg font-medium text-gray-900">Related Products</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {relatedProducts.map((relatedProduct) => (
+                  <div className="relative block overflow-hidden" key={relatedProduct._id}>
+                    <img
+                      src={relatedProduct.imageCover}
+                      alt={relatedProduct.title}
+                      className="h-64 w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+              
+            </div>
+          )}
         </div>
       ) : (
         <Spinner color="pink" aria-label="Pink spinner example" />
-
       )}
     </div>
   );
