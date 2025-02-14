@@ -28,19 +28,7 @@ export default function Login() {
         )
         .max(20, "Password must be at most 20 characters"),
     }),
-    // onSubmit: async (values) => {
-    //   try {
-    //     const AuthRespone = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values);
-    //     toast.success("Login successful!");
-    //     console.log("AuthRespone:", AuthRespone);
-    //     localStorage.setItem("token", AuthRespone.data.token);
-    //     navigate("/home", { state: { isLoggedIn: true } });
-    //     login(AuthRespone.data.token);
-    //   } catch (error) {
-    //     console.error("Login failed:", error);
-    //     alert(error.AuthRespone?.data?.message || "Login failed.");
-    //   }
-    // },
+
     onSubmit: (values) => {
       setLoading(true);
       axios
@@ -52,12 +40,10 @@ export default function Login() {
           localStorage.setItem("name", res.data.user.name);
           navigate("/home", { state: { isLoggedIn: true } });
           login(res.data.token);
-          // console.log("Name:", res.data.user.name);
           setLoading(false);
         })
         .catch((error) => {
           toast.error(error.response.data.message);
-          // console.error("Login failed duo to", res);
           setLoading(false);
         }).finally(() => {
           setLoading(false);

@@ -1,11 +1,15 @@
 import { Card, Carousel, Pagination, Spinner } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useProduct } from "../../func/context/ProductContext.jsx";
 import { Link } from "react-router";
+import { CartContext } from "../../func/context/CartContextProvider.jsx";
+import { WishlistContext } from "../../func/context/WishlistCartContext.jsx";
 
 export default function Home() {
+  const {addCart} = useContext(CartContext);
+  const { addProductToWishlist } = useContext(WishlistContext);
+  
   const { products, Catgory } = useProduct();
-  // console.log("🚀 ~ Home ~ Catgory:", products)
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,13 +52,11 @@ export default function Home() {
     setCurrentPage(pageNumber);
   };
 
-  
-
   return (
     <>
       {products == null ? (
-      <Spinner color="pink" aria-label="Pink spinner example" />
-    ) : (
+        <Spinner color="pink" aria-label="Pink spinner example" />
+      ) : (
         <div className="bg-gradient-to-br from-red-900 to-slate-400">
           {/* First Section */}
           <section className="flex items-center">
@@ -138,24 +140,31 @@ export default function Home() {
                   imgAlt={product.title}
                   imgSrc={product.imageCover}
                 >
-                  <Link to={`/ProductDetails/${product._id}/${product.category.name}`}>
-                  
+                  <Link
+                    to={`/ProductDetails/${product._id}/${product.category.name}`}
+                  >
+                    <div className="flex justify-between">
+
                     <h6 className="font-light text-red-600 dark:text-white hover:text-gray-900 transition-all duration-1000">
                       {product.category.name}
                     </h6>
-                  
+                    </div>
+
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900">
                       {product.title}
                     </h5>
                   </Link>
-                {
-                product.priceAfterDiscount ? (
-                  <i className="fa-solid fa-money-bill-wave fa-fade text-center text-red-500">Sale</i>
-                ): null
-                }
-                
-                  <div className="flex items-center justify-between">
+                    <button onClick={() => addProductToWishlist(product._id)}>
+                      <i className="fa-regular fa-heart fa-xl text-red-600  hover:scale-125 transation-all duration-1000"></i>
+                    </button>
                   {product.priceAfterDiscount ? (
+                    <i className="fa-solid fa-money-bill-wave fa-fade text-center text-red-500">
+                      Sale
+                    </i>
+                    
+                  ) : null}
+                  <div className="flex items-center justify-between">
+                    {product.priceAfterDiscount ? (
                       <>
                         <span className="text-sm font-bold  line-through text-red-500">
                           {`${product.price} EGP`}
@@ -170,12 +179,14 @@ export default function Home() {
                       </span>
                     )}
 
-                    <Link
-                      href="#"
-                      className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    >
-                      Add to cart
-                    </Link>
+                      <Link href="#">
+                        <button
+                          onClick={() => addCart(product._id)}
+                          className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                        >
+                          Add to cart
+                        </button>
+                      </Link>
                   </div>
                 </Card>
               ))
@@ -196,4 +207,3 @@ export default function Home() {
     </>
   );
 }
-

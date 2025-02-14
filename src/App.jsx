@@ -15,6 +15,8 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import { BrandsProvider } from "./func/context/BrandsContext.jsx";
 import ProtectedPath from "./pages/Auth/ProtectedPath.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
+import CartContextProvider from "./func/context/CartContextProvider.jsx";
+import { WishlistContextProvider } from "./func/context/WishlistCartContext.jsx";
 
 
 function App() {
@@ -74,12 +76,16 @@ function App() {
   return (
     <>
       <AuthProvider>
+        <CartContextProvider>
+        <WishlistContextProvider>
         <ProductProvider>
           <BrandsProvider>
             <Toaster position="top-right" reverseOrder={true} />
             <RouterProvider router={router} />
           </BrandsProvider>
         </ProductProvider>
+        </WishlistContextProvider>
+        </CartContextProvider>
       </AuthProvider>
     </>
   );
