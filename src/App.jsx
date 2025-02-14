@@ -17,6 +17,9 @@ import ProtectedPath from "./pages/Auth/ProtectedPath.jsx";
 import ProductDetails from "./pages/Products/ProductDetails.jsx";
 import CartContextProvider from "./func/context/CartContextProvider.jsx";
 import { WishlistContextProvider } from "./func/context/WishlistCartContext.jsx";
+import ForgetPassword from "./pages/Auth/ForgetPassword.jsx";
+import Verify from "./pages/Auth/Verify.jsx";
+import ResetPassword from "./pages/Auth/ResetPassword.jsx";
 
 
 function App() {
@@ -32,6 +35,18 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/forget",
+          element: <ForgetPassword />,
+        },
+        {
+          path: "/verify",
+          element: <Verify />,
+        },
+        {
+          path: "/reset-password",
+          element: <ResetPassword />,
         },
         {
           path: "/register",

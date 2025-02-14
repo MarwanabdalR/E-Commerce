@@ -147,7 +147,7 @@ export default function Login() {
 
                   <p className="mt-4 text-sm text-black sm:mt-0">
                     Forget your password?
-                    <Link to="#" className="text-blue-700 underline">
+                    <Link to="/forget" className="text-blue-700 underline">
                       press here
                     </Link>
                     .
