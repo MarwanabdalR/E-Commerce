@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../func/context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { Button } from "flowbite-react";
+import { Badge } from "flowbite-react";
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,7 +45,7 @@ const Navigation = () => {
         `}
       >
         <div className="flex h-16 items-center justify-between">
-          <Link className="block text-white flex items-center" to="/">
+          <Link className="block text-white flex items-center" to="/home">
             <i className="fa-duotone fa-solid fa-cash-register fa-2xl"></i>
             <span className="uppercase text-white text-3xl font-bold">
               E-commerce
@@ -180,7 +180,7 @@ const Navigation = () => {
                       Logout
                     </button>
                   </li>
-                  <Button>heeeelo: {localStorage.getItem("name")}</Button>
+                  <Badge className=" px-4 py-2 rounded-md" >heeeelo  {localStorage.getItem("name")}</Badge>
                       
                 </>
               )}
