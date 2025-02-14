@@ -1,13 +1,16 @@
 import { Card } from "flowbite-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
 import { useProduct } from "../../func/context/ProductContext.jsx";
+import { CartContext } from "../../func/context/CartContextProvider.jsx";
+import { WishlistContext } from "../../func/context/WishlistCartContext.jsx";
 
 export default function Products() {
   const { products } = useProduct();
+    const {addCart} = useContext(CartContext);
+    const { addProductToWishlist } = useContext(WishlistContext);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const navigate = useNavigate();
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
@@ -50,27 +53,54 @@ export default function Products() {
               imgAlt={product.title}
               imgSrc={product.imageCover}
             >
-              <Link to={`/product/${product._id}`}>
-                <h6 className="font-light text-red-800 dark:text-white">
-                  {product.category.name}
-                </h6>
-              </Link>
-              <Link to={`/product/${product._id}`}>
-                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {product.title}
-                </h5>
-              </Link>
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {`${product.price} EGP`}
-                </span>
-                <Link
-                  to={`/product/${product._id}`}
-                  className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                >
-                  Add to cart
-                </Link>
-              </div>
+                  <Link
+                    to={`/ProductDetails/${product._id}/${product.category.name}`}
+                  >
+                    <div className="flex justify-between">
+
+                    <h6 className="font-light text-red-600 dark:text-white hover:text-gray-900 transition-all duration-1000">
+                      {product.category.name}
+                    </h6>
+                    </div>
+
+                    <h5 className="text-xl font-semibold tracking-tight text-gray-900">
+                      {product.title}
+                    </h5>
+                  </Link>
+                    <button onClick={() => addProductToWishlist(product._id)}>
+                      <i className="fa-regular fa-heart fa-xl text-red-600  hover:scale-125 transation-all duration-1000"></i>
+                    </button>
+                  {product.priceAfterDiscount ? (
+                    <i className="fa-solid fa-money-bill-wave fa-fade text-center text-red-500">
+                      Sale
+                    </i>
+                    
+                  ) : null}
+                  <div className="flex items-center justify-between">
+                    {product.priceAfterDiscount ? (
+                      <>
+                        <span className="text-sm font-bold  line-through text-red-500">
+                          {`${product.price} EGP`}
+                        </span>
+                        <span className="text-sm font-bold text-green-500">
+                          {`${product.priceAfterDiscount} EGP`}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-2xl font-bold text-gray-900">
+                        {`${product.price} EGP`}
+                      </span>
+                    )}
+
+                      <Link href="#">
+                        <button
+                          onClick={() => addCart(product._id)}
+                          className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                        >
+                          Add to cart
+                        </button>
+                      </Link>
+                  </div>
             </Card>
           ))}
         </div>

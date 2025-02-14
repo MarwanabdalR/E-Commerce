@@ -36,7 +36,7 @@ export default function ResetPassword() {
         console.log("🚀 ~ onSubmit: ~ response:", response)
 
         toast.success("Password reset successfully! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000); // Redirect to login
+        setTimeout(() => navigate("/login"), 2000); 
       } catch (error) {
         console.error("Reset failed:", error);
         toast.error(error.response?.data?.message || "Something went wrong");

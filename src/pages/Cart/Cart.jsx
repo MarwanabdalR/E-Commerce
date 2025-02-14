@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../func/context/CartContextProvider";
 import toast from "react-hot-toast";
+import { Link } from "react-router";
 
 export default function Cart() {
   const [count, setCount] = useState(null);
@@ -152,12 +153,12 @@ export default function Cart() {
                       </button>
 
 
-                      <a
-                        href="#"
+                      <Link
+                        to="/checkout"
                         className="block rounded-sm bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
                       >
                         Checkout
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

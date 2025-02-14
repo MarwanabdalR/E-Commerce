@@ -25,18 +25,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("name");
   };
 
-  // const forgetPassword (email) => {
-  //   axios
-  //     .post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", { email })
-  //     .then((res) => {
-  //       console.log(res);
-  //       toast.success("Password reset email sent");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       toast.error(error.response.data.message);
-  //     });
-  // };
 
 
   return (

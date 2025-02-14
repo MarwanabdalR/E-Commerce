@@ -20,6 +20,7 @@ import { WishlistContextProvider } from "./func/context/WishlistCartContext.jsx"
 import ForgetPassword from "./pages/Auth/ForgetPassword.jsx";
 import Verify from "./pages/Auth/Verify.jsx";
 import ResetPassword from "./pages/Auth/ResetPassword.jsx";
+import CheckOut from "./pages/CheckOut/CheckoutPage.jsx";
 
 
 function App() {
@@ -79,6 +80,10 @@ function App() {
         {
           path: "/brands",
           element: <ProtectedPath><Brands /></ProtectedPath>,
+        },
+        {
+          path: "/checkout",
+          element: <ProtectedPath><CheckOut /></ProtectedPath>,
         },
         {
           path: "*",
